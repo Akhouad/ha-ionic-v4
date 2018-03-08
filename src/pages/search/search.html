@@ -1,0 +1,122 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-buttons  start left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" id="myMenu" item-left></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Search</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="main-content">
+  <ion-searchbar (input)="filterResults($event)"
+                 (ionClear)="clearSearch()"
+                  animated="true" #searchBar>
+   </ion-searchbar>
+   <ion-list class="compCard one-line-list">
+     <ng-container *ngFor="let item of speakers; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Speakers</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item.id, 'speaker')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item.first_name }}  {{ item.last_name }}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+       <ion-item *ngIf="isLast">
+         <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('speaker')">more</button>
+       </ion-item>
+     </ng-container>
+
+    <ng-container *ngFor="let item of sponsors; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Sponsors</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item.id, 'sponsor')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item.name }}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+      <ion-item *ngIf="isLast">
+        <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('sponsor')">more</button>
+      </ion-item>
+     </ng-container>
+
+     <ng-container *ngFor="let item of surveys; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Surveys</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item?.quick_code, 'survey')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item.name }}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+       <ion-item *ngIf="isLast">
+         <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('survey')">more</button>
+       </ion-item>
+     </ng-container>
+
+     <ng-container *ngFor="let item of contents; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Contents</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item.id, 'content')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item.name }}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+       <ion-item *ngIf="isLast">
+         <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('content')">more</button>
+       </ion-item>
+     </ng-container>
+
+     <ng-container *ngFor="let item of sessions; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Sessions</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item.id, 'session')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item?.name }} {{item.track.name}}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+       <ion-item *ngIf="isLast">
+         <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('session')">more</button>
+       </ion-item>
+     </ng-container>
+
+     <ng-container *ngFor="let item of exhibitors; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Exhibitors</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item.id, 'exhibitor')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item.name }}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+       <ion-item *ngIf="isLast">
+         <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('exhibitor')">more</button>
+       </ion-item>
+     </ng-container>
+
+     <ng-container *ngFor="let item of maps; let isFirst = first; let isLast = last">
+       <ion-list-header *ngIf="isFirst">Maps</ion-list-header>
+       <ion-item class="one-line-list__item no-padding" (tap)="goToPageDetails(item.id, 'map')">
+         <div class="text-area">
+          <h5 text-wrap>{{ item.title }}</h5>
+         </div>
+         <div class="button-area">
+          <ion-icon name="arrow-forward" item-end></ion-icon>
+         </div>
+       </ion-item>
+       <ion-item *ngIf="isLast">
+         <button class="button small-btn success-btn" ion-button clear item-end (tap)="goToMore('map')">more</button>
+       </ion-item>
+     </ng-container>
+   </ion-list>
+</ion-content>

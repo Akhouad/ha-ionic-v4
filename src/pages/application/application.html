@@ -1,0 +1,138 @@
+<ion-header *ngIf="!checkPage" class="main-header">
+  <ion-navbar color="primary">
+    <ion-title>{{contentName}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only
+              [disabled]="!amountChecked"
+              (click)="sendContents($event)"
+              id="notification-button-nav">
+        Send
+        <ion-badge class="content-number" *ngIf="amountChecked" id="notifications-badge-nav" color="danger">{{ amountChecked }}</ion-badge>
+        <!-- <ion-icon name="send"></ion-icon> -->
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-header *ngIf="checkPage" class="main-header">
+  <ion-toolbar color="primary">
+    <ion-buttons start left >
+      <button ion-button (click)="goBackContent()" >
+        <ion-icon name="arrow-back" style="font-size: 25px; margin-left: 12px"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>{{contentName}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only
+              [disabled]="!amountChecked"
+              (click)="sendContents($event)"
+              id="notification-button">
+        Send
+        <ion-badge class="content-number" *ngIf="amountChecked" id="notifications-badge" color="danger">{{ amountChecked }}</ion-badge>
+        <!-- <ion-icon name="send"></ion-icon> -->
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content">
+  <ion-searchbar [(ngModel)]="search" #searchbar (ngModelChange)="watchCatsSearch2($event)"></ion-searchbar>
+  
+  <component-loader *ngIf="showLoader"></component-loader>
+
+  <div class="show-icons" *ngIf="!showLoader">
+    <span [class.active]="showType == 'grid'" (click)="toggleView('grid')"><ion-icon ios="ios-grid" md="md-grid"></ion-icon></span>
+    <span [class.active]="showType == 'list'" (click)="toggleView('list')"><ion-icon ios="ios-list" md="md-list"></ion-icon></span>
+  </div>
+
+  <div style="margin-bottom: 13px" 
+      *ngFor="let category of categories; index as i" 
+      class="category" 
+      [hidden]="!category['contents'] || !category['contents'].length || searchItem" 
+      [class.listView]="showType !== 'grid'">
+    <ion-item>
+      <ion-label text-wrap class="cat-heading" [class.bebold]="category['checked']">{{category.name}}</ion-label>
+      <button
+        class="button small-btn secondary-color-text"
+        *ngIf ="categories && categories.length>1"
+        (click)="openApplicationForCategory(i)"
+        ion-button clear item-end style="font-size: 14px">
+        More
+      </button>
+      <ion-checkbox 
+        *ngIf ="categories && categories.length==1"
+        item-right secondary [(ngModel)]="category['checked']" (ngModelChange)="checkAll(category)" color="primary"></ion-checkbox>
+    </ion-item>
+    <div [class.images-container]="categories && categories.length>1">
+      <div class="image-container" [class.mosaic]="categories.length<=1" *ngFor="let content of category['contents']; let _i = index;" >
+        <ion-checkbox [(ngModel)]="content['checked']" (ngModelChange)="checkContent(content, category)"></ion-checkbox>
+        <img (click)="goToExactContent(content['id'])" [class.mosaic]="categories.length<=1" [src]="content['thumbnail_file']" alt=""
+             image-cache>
+        <span *ngIf ="categories && categories.length>1" style="font-size: 11px;
+           color: #000;
+           height: 35px;
+           margin-bottom: -47px;
+           padding-bottom:0px;
+           padding-top:0px;
+           z-index: -38;
+           position: absolute;">
+           {{content['name']}}
+        </span>
+        <span *ngIf ="categories && categories.length==1" style="font-size: 11px;
+          color: #000;
+          height: 45px;
+          margin-bottom: -15px;
+          z-index: -38;">
+          {{content['name']}}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <div [hidden]="!searchItem">
+    <div style="margin-bottom: 13px" 
+        *ngFor="let category of categories; index as i" 
+        class="category" 
+        [class.listView]="showType !== 'grid'"
+        [hidden]="!category['contents'] || category['contents'] && !category['contents'].length || !category['show']"
+    >
+      <ion-item>
+        <ion-label class="cat-heading" [class.bebold]="category['checked']">{{category.name}}</ion-label>
+        <button
+          class="button small-btn secondary-color-text"
+          *ngIf ="categories && categories.length>1"
+          (click)="openApplicationForCategory(i)"
+          ion-button clear item-end style="font-size: 14px">
+          More
+        </button>
+        <ion-checkbox 
+          *ngIf ="categories && categories.length==1"
+          item-right secondary [(ngModel)]="category['checked']" (ngModelChange)="checkAll(category)" color="dark" checked="false"></ion-checkbox>
+      </ion-item>
+      <div [class.images-container]="categories && categories.length>1">
+        <div class="image-container" [class.mosaic]="categories.length<=1" *ngFor="let content of category['contents']; let _i = index; " [hidden]="!content['show']">
+          <ion-checkbox [(ngModel)]="content['checked']" (ngModelChange)="checkContent(content, category)"></ion-checkbox>
+          <img (tap)="goToExactContent(content['id'])" [class.mosaic]="categories.length<=1" [src]="content['thumbnail_file']" alt=""
+               image-cache>
+               <span *ngIf ="categories && categories.length>1" style="font-size: 11px;
+                color: #000;
+                height: 35px;
+                margin-bottom: -47px;
+                padding-bottom:0px;
+                padding-top:0px;
+                z-index: -38;
+                position: absolute;">
+                {{content['name']}}
+             </span>
+             <span *ngIf ="categories && categories.length==1" style="font-size: 11px;
+               color: #000;
+               height: 45px;
+               margin-bottom: -15px;
+               z-index: -38;">
+               {{content['name']}}
+             </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

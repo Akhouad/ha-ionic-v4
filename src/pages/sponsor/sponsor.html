@@ -1,0 +1,53 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-title>{{ sponsor?.name }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="main-content">
+  
+  <component-loader *ngIf="showLoader"></component-loader>
+  
+  <div text-center padding class="sponsor-heading">
+    <img [src]="sponsor?.logo" />
+    <h2>{{sponsor?.name}}</h2>
+  </div>
+  <ion-toolbar text-center
+               *ngIf="sponsor?.facebook_url || sponsor?.twitter_url || sponsor?.linkedin_url"
+               class="sponsors-action-buttonbar">
+    <ion-buttons>
+      <button ion-button solid style="background-color: #4468B0"
+              *ngIf="sponsor?.facebook_url"
+              (click)="openUrl(sponsor?.facebook_url)">
+        <ion-icon name="logo-facebook"></ion-icon>
+        Facebook
+      </button>
+      <button ion-button solid style="background-color: #2AA3EF"
+              *ngIf="sponsor?.twitter_url"
+              (click)="openUrl(sponsor?.twitter_url)">
+        <ion-icon name="logo-twitter"></ion-icon>
+        Twitter
+      </button>
+      <button ion-button solid style="background-color: #1178B3"
+              *ngIf="sponsor?.linkedin_url"
+              (click)="openUrl(sponsor?.linkedin_url)">
+        <ion-icon name="logo-linkedin"></ion-icon>
+        LinkedIn
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-list margin-top>
+    <ion-list-header>
+      Description
+    </ion-list-header>
+    <ion-item text-wrap>
+      {{ sponsor?.description }}
+    </ion-item>
+    <ion-list-header>
+      Tag
+    </ion-list-header>
+    <ion-item>
+      <button ion-button block class="button default-btn full-width-btn primary-color-btn">{{ sponsor?.tag }}</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

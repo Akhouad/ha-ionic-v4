@@ -1,0 +1,33 @@
+page-agenda {
+.agendaCard{
+    -webkit-box-shadow: 0px 9px 41px -13px rgba(128,128,128,0.5) !important;
+    -moz-box-shadow: 0px 9px 41px -13px rgba(128,128,128,0.5) !important;
+    box-shadow: 0px 9px 41px -13px rgba(128,128,128,0.5) !important;
+    margin: 3px 6px 2px !important;
+    width:calc(100% - 12px);
+}
+ion-item{
+    border: unset !important;
+    outline: unset !important;
+}
+
+.agendaCard .item-inner{
+    border-bottom:  unset !important;
+}
+.timeLabel{
+    color: map-get($colors, dellGray) !important;
+}
+.agendaName{
+    color: map-get($colors, primary);
+    font-size: 16px !important;
+}
+.agendaCard button{
+    border-left-color: map-get($colors, primary);
+    border-left-style: solid;
+    border-left-width: 2px;
+}
+.agendaBlocks button{
+    color: map-get($colors, primary);
+}
+}
+  

@@ -1,0 +1,24 @@
+<ion-header class="main-header">
+  <ion-navbar *ngIf="!page" color="primary">
+    <ion-title>Content</ion-title>
+  </ion-navbar>
+  <ion-toolbar *ngIf="page" color="primary">
+    <ion-buttons start left >
+      <button ion-button (click)="goBack()" >
+        <ion-icon name="arrow-back" style="font-size: 24px; margin-left: 10px"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Content</ion-title>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content class="main-content">
+  <ion-slides pager="true" zoom="true">
+    <ion-slide *ngFor="let item of data">
+      <div class="swiper-zoom-container">
+        <img src="{{item}}"  (click)="openUrl(item)"/>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+  

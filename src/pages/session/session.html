@@ -1,0 +1,145 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-title>{{session?.name}}</ion-title>
+    <ion-buttons end class="hide">
+      <button ion-button icon-only>
+        <ion-icon name="share-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="main-content">
+    
+  <component-loader *ngIf="showLoader"></component-loader>
+  
+  <ion-list>
+    <ion-item>
+      <button ion-button class="button default-btn full-width-btn danger-btn"
+              block
+              (click)="getSessionCheck()"
+              *ngIf="userType == 'organizer' || userType == 'staff'">
+        SESSION SCANNER
+      </button>
+    </ion-item>
+  </ion-list>
+  <p text-center primary>{{ session?.start_timestamp | date: 'EEE, MMM d, h:mm a' }} - {{ session?.end_timestamp | date: 'h:mm a'}}</p>
+  <h4 text-center>
+    {{ session?.name }}
+  </h4>
+  <ion-row (click)="unCheckRate()">
+    <ion-col>
+      <p style="font-size: 12px;
+    margin-left: 12px;">Session rating</p>
+    </ion-col>
+    <ion-col *ngIf="unCheck" style="pointer-events: none; margin-right: 17px;">
+      <rating [(ngModel)]="rate" style="float:right"
+              readOnly="false"
+              max="5"
+              emptyStarIconName="star-outline"
+              halfStarIconName="star-half"
+              starIconName="star"
+              nullable="false"
+              (ngModelChange)="onModelChange($event)">
+      </rating>
+    </ion-col>
+    <ion-col *ngIf="!unCheck">
+      <rating [(ngModel)]="rate" style="float:right"
+              readOnly="false"
+              max="5"
+              emptyStarIconName="star-outline"
+              halfStarIconName="star-half"
+              starIconName="star"
+              nullable="false"
+              (ngModelChange)="onModelChange($event)">
+      </rating>
+    </ion-col>
+  </ion-row>
+  <ion-toolbar text-center class="session-action-buttonbar hide">
+    <ion-buttons>
+      <button ion-button icon-only>
+        <ion-icon ios="ios-create-outline" md="md-create"></ion-icon>
+        Notes
+      </button>
+      <button ion-button icon-only>
+        <ion-icon ios="ios-calendar-outline" md="md-calendar"></ion-icon>
+        Add
+      </button>
+      <button ion-button icon-only>
+        <ion-icon ios="ios-camera-outline" md="md-camera"></ion-icon>
+        Photo
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-list>
+    <ion-list-header style="margin: 0 !important;" class="primary-color-text">
+      Room Information
+    </ion-list-header>
+    <ion-item *ngFor="let room of session?.room">
+      <ion-icon name="pin" class="dark-gray-text" item-start></ion-icon>
+      {{ room?.name }}
+      <p>Number: {{ room?.number }}</p>
+      <p>Floor: {{ room?.floor }}</p>
+    </ion-item><!-- Room Information List Item -->
+    <ion-list-header class="primary-color-text">
+      Speaker Information
+    </ion-list-header>
+    <ion-item *ngFor="let speaker of session?.speakers; let _i = index;">
+      <p>First name: {{ speaker?.first_name }}</p>
+      <p>Last name: {{ speaker?.last_name }}</p>
+      <p>E-mail: {{ speaker?.email }}</p>
+      <ion-row (click)="unCheckRate()">
+        <!-- <ion-col>
+          <p style="font-size: 12px;
+    margin-left: 0;
+    margin-top: 23px;">Speaker rating</p>
+        </ion-col> -->
+          <ion-col *ngIf="unCheck">
+            <rating [(ngModel)]="speaker.user_rate"
+                    readOnly="false"
+                    max="5"
+                    emptyStarIconName="star-outline"
+                    halfStarIconName="star-half"
+                    starIconName="star"
+                    nullable="false"
+                    (ngModelChange)="onChangeSpeaker($event, speaker?.id)">
+            </rating>
+          </ion-col>
+          <ion-col *ngIf="!unCheck">
+            <rating [(ngModel)]="speaker.user_rate"
+                    readOnly="false"
+                    max="5"
+                    emptyStarIconName="star-outline"
+                    halfStarIconName="star-half"
+                    starIconName="star"
+                    nullable="false"
+                    (ngModelChange)="onChangeSpeaker($event, speaker?.id)">
+            </rating>
+          </ion-col>
+      </ion-row>
+    </ion-item><!-- Speaker Information List Item -->
+    <ion-item *ngIf="!session?.speakers.length">
+      <p>There currently is not any speaker information.</p>
+    </ion-item>
+    <ion-list-header  class="primary-color-text">
+      Description
+    </ion-list-header>
+    <ion-item text-wrap>
+      {{ session?.abstract }}
+    </ion-item>
+    <ion-list-header class="hide">
+      Photos
+    </ion-list-header>
+    <ion-item class="hide">
+      <ion-toolbar>
+        <p text-wrap>There are not any photos for this event yet.</p>
+        <ion-buttons end>
+          <button ion-button icon-end solid color="primary">
+            Take one!
+            <ion-icon ios="ios-camera-outline" md="md-camera"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-item>
+  </ion-list>
+</ion-content>
+  

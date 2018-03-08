@@ -1,0 +1,80 @@
+<ion-header class="main-header">
+  <ion-toolbar color="primary">
+    <ion-buttons start left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" id="myMenu" item-left></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Contact</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content">
+  <ion-refresher (ionRefresh)="doRefresh($event)" color="sunbeam">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-searchbar small [(ngModel)]="searchTerm" (ionInput)="setFilteredItems($event)" color="primary"></ion-searchbar>
+
+  <p *ngIf="empty" text-center>
+    No Items Found
+  </p>
+  
+  <ion-list>
+    <ion-item *ngFor="let item of contacts" (click)="goToEditContact(item?.id)">
+      <ion-avatar item-start *ngFor="let val of item?.images">
+        <img src="{{val.image}}" onError="this.src='assets/img/default_avatar.png';">
+      </ion-avatar>
+      <h3>{{ item?.first_name }} {{ item?.last_name }}</h3>
+      <p>{{item?.email}}</p>
+      <p>{{item?.company}}</p>
+    </ion-item>
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button block
+                [disabled]="noButton"
+                (click)="sendRequest()"
+                class="sendRequestBtn button default-btn full-width-btn success-btn">
+          <ion-icon name="mail" style="display:inline-block;margin-right: 10px"></ion-icon>
+          Request Contacts
+          <span>&nbsp;( {{ number }} )</span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <component-loader *ngIf="showLoader"></component-loader>
+  
+  <ion-list class="multi-lines-list">
+    <ion-item *ngFor="let item of allContact" class="multi-lines-list__item" (click)="goToEditContact(item?.id)">
+      <ion-avatar item-start>
+        <img src="{{item.images.length ? item?.images[0].image : 'assets/img/default_avatar.png'}}">
+      </ion-avatar>
+        
+      <h3>{{ (item?.first_name == null && item?.last_name == null) ? 'No name' : '' }}</h3>
+      <h3>{{ item?.first_name }} {{ item?.last_name }}</h3>
+      <p>{{(item?.email) ? item?.email : 'No Email'}}</p>
+      <p>{{(item?.company) ? item?.company : 'No Company'}}</p>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="primary">
+    <button style="float: right; background: transparent;
+    margin: 30px;">
+    </button>
+  </ion-toolbar>
+</ion-footer>
+<ion-fab bottom center (click)="openMenu()">
+  <button ion-fab large>
+    <ion-icon name="add" class="fab-scan-icon"></ion-icon>
+  </button>
+</ion-fab>
+  

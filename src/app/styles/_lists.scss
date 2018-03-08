@@ -1,0 +1,56 @@
+.one-line-list{
+    .one-line-list__item{
+        display:inline-block;
+        width:100%;
+        border-bottom:solid 2px $light-gray;
+        margin-bottom:-3px!important;
+
+        .text-area{
+            padding:20px 20px;
+            width:calc(100% - 50px);
+            float:left;
+        }
+        
+        .item-inner{
+            border-bottom:0!important;
+        }
+
+        .button-area{
+            padding: 20px 0;
+            width:50px;
+            text-align:center;
+            float:right;
+            background-color: rgba($light-gray, .25);
+            border-left:solid 2px $light-gray;
+            color: $success-color;
+        }
+        
+        &.no-padding{
+            .label-md{
+                margin:0!important
+            }
+
+            .text-area, .button-area{
+                padding: 10px;
+            }   
+        }
+    }
+}
+
+.multi-lines-list{
+    .multi-lines-list__item{
+        display:inline-block;
+        width:100%;
+        border-bottom:solid 2px $light-gray;
+        margin-bottom:-3px!important;
+
+        .item-inner{
+            border-bottom:0!important;
+        }
+
+        ion-avatar{
+            float:left;
+            padding-top:10px;
+        }
+    }
+}

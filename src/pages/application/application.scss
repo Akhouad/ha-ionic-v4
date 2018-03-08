@@ -1,0 +1,214 @@
+page-application {
+    .content-number{
+        border-radius:2px!important;
+        background-color: $red!important;
+        margin: 0!important;
+        font-size:12px!important;
+        padding: 2px 5px!important;
+        top:-6px!important;
+        right: -8px!important;
+    }
+
+    ion-header ion-navbar ion-title {
+      padding: 5px 0 0 0;
+    }
+    ion-header ion-toolbar ion-title {
+      padding: 5px 0 0 0;
+    }
+    ion-header ion-navbar .filter-button{
+      text-align: center !important;
+    }
+    ion-header ion-navbar .filter-button button{
+      background-color: transparent;
+      color: #ffffff;
+    }
+    ion-header ion-navbar .filter-button button ion-icon{
+      font-size: 1.7em;
+    }
+    ion-header ion-toolbar .filter-button{
+      text-align: center !important;
+    }
+    ion-header ion-toolbar .filter-button button{
+      background-color: transparent;
+      color: #ffffff;
+    }
+    ion-header ion-toolbar .filter-button button ion-icon{
+      font-size: 1.7em;
+    }
+    ion-content .item {
+      padding-left: 5px;
+      padding-right: 5px;
+      margin-bottom: 5px;
+    }
+    ion-content .ion-checkbox {
+      margin-right: 0;
+    }
+    ion-content .bebold {
+      font-weight: bold;
+    }
+    ion-content h4 {
+      box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.3);
+      padding-bottom: 7px;
+      padding-left: 15px;
+    }
+    ion-content ion-spinner {
+      width: 100%;
+      margin-top: 20px;
+    }
+    ion-content .category {
+      clear: both;
+    }
+    ion-content .image-container {
+        min-width:50px;
+      max-height: 150px;
+      display: inline-block;
+      margin-right: 5px;
+      position: relative;
+  
+    }
+    ion-content .image-container span {
+      position: absolute;
+      z-index: 10;
+      bottom: 10px;
+      left: 0;
+      padding: 3px;
+      color: white;
+      white-space: initial;
+      overflow: auto !important;
+      //text-overflow: ellipsis;
+      width: 100%;
+      display: block;
+    }
+    ion-content .image-container.mosaic {
+      max-height: 182px;
+      display: inline-block;
+      margin-right: 1.3%;
+      margin-bottom: 5px;
+      position: relative;
+      width: 32%;
+      // height: 125px;
+      height: 140px;
+      overflow: hidden;
+      padding-bottom: 40px;
+      margin-bottom: 20px;
+    }
+    ion-content img {
+      position: relative;
+      float: left;
+      height: 150px;
+      width: auto;
+    }
+    ion-content .mosaic {
+      height: auto!important;
+
+      img{
+        width: auto;
+        height: auto;
+      }
+    }
+    ion-content ion-scroll {
+      white-space: nowrap;
+      height: 250px;
+    }
+    ion-content .images-container {
+      height: 190px;
+      overflow-x: scroll;
+      // vertical-align: top;
+      white-space: nowrap;
+    }
+    .checkbox-ios, .checkbox-md, .checkbox-wp {
+      z-index: 10 !important;
+      margin-left: -25px !important;
+      margin-top: 5px !important;
+    }
+    #notification-button {
+      overflow: visible !important;
+    }
+    #notifications-badge {
+      background-color: red;
+      position: absolute;
+      top: -8px;
+      right: -6px;
+      border-radius: 100%;
+      font-size: 10px;
+    }
+    #notification-button-nav {
+      overflow: visible !important;
+    }
+    #notifications-badge-nav {
+      background-color: red;
+      position: absolute;
+      top: -8px;
+      right: -6px;
+      border-radius: 100%;
+      font-size: 10px;
+    }
+    ion-fab {
+      bottom: 50px !important;
+    }
+
+    .show-icons{
+      padding: 10px 5px;
+      
+      span{
+        padding: 3px 5px;
+        background-color: #fff;
+        border: solid 1px rgba($primary-color, 0.13);
+        display:inline-block;
+        
+        &:not(:last-child){
+          margin-right: -4px;
+        }
+
+        ion-icon{
+          font-size: 24px;
+          display:inline-block;
+          color: rgba($primary-color, .5)
+        }
+
+        &.active{
+          background-color: rgba($primary-color, 0.13);
+
+          ion-icon{
+            color:$primary-color
+          }
+        }
+      }
+    }
+
+    .category{
+      &.listView{
+        .images-container{
+          width: 100%;
+        }
+        
+        .image-container{
+          width:100%;
+          float:left;
+          position:relative;
+          padding-bottom:0;
+
+          ion-checkbox{
+            position:absolute;
+            top:0;
+            right:20px;
+          }
+
+          img{
+            height:65px;
+            width:100px;
+            display:inline-block;
+          }
+
+          span{
+            position:static!important;
+            width: calc(100% - 150px);
+            float:left;
+            margin-top:5px;
+            height: auto!important;
+          }
+        }
+      }
+    }
+}
+  

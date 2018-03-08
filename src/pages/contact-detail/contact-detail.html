@@ -1,0 +1,222 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-title>Contact</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-right type="submit" (click)="submitFlag = true;saveData(dataForm.value)">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="main-content">
+    
+  <component-loader *ngIf="showLoader"></component-loader>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let item of photoData">
+        <div id="{{item?.id}}">
+          <img src="{{item.image}}" *ngIf="photoData" width="130" height="130" class="contactDisplayImg" />
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list center>
+          <ion-item class="no-padding-left" style="border-top:unset !important;">
+            <h3 style="font-size:20px;" *ngIf="first_name || last_name">{{first_name}} {{last_name}}</h3>
+            <p style="font-size:13px;" *ngIf="email">{{email}}</p>
+            <p style="font-size:13px;" *ngIf="job_title">{{job_title}}</p>
+            <p style="font-size:13px;" *ngIf="company">{{company}}</p>
+            <p style="font-size:13px;" *ngIf="mobile_phone">{{mobile_phone}}</p>
+            <p style="font-size:13px;" *ngIf="office_phone">{{office_phone}}</p>
+            <p style="font-size:13px;" *ngIf="address1">{{address1}}</p>
+            <p style="font-size:13px;" *ngIf="city">{{city}}</p>
+            <p style="font-size:13px;" *ngIf="state">{{state}}</p>
+            <p style="font-size:13px;" *ngIf="zip">{{zip}}</p>
+            <br/>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <form #dataForm='ngForm'>
+    <ion-row>
+      <!-- <ion-col col-12>
+        <button ion-button block type="submit" class="button default-btn full-width-btn fourth-color-btn" (click)="submitFlag = true;saveData(dataForm.value)">
+          Save Changes
+        </button>
+      </ion-col> -->
+      <ion-col col-12>
+        <button ion-button block class="button default-btn full-width-btn primary-color-btn" (click)="onCamera()">Add a photo</button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button full class="button default-btn full-width-btn success-btn" (click)="saveToPhone()">Save to Phone</button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button full class="button default-btn full-width-btn primary-color-btn" (click)="shareContact()">Share Contact</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+          <ion-list>
+            <div class="ha__form" style="margin-top:10px;">
+              <div class="ha__form-field">
+                <div class="field-textarea">
+                  <ion-item>
+                    <ion-label floating>Notes</ion-label>
+                    <ion-textarea rows="5" [(ngModel)]="notes" name="notes"></ion-textarea>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>First name</ion-label>
+                    <ion-input  type="text" [(ngModel)]="first_name" name="first_name"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Last name</ion-label>
+                    <ion-input  type="text" [(ngModel)]="last_name" name="last_name"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Company</ion-label>
+                    <ion-input  type="text" [(ngModel)]="company" name="company"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Title</ion-label>
+                    <ion-input type="text" [(ngModel)]="job_title" name="job_title"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Email</ion-label>
+                    <ion-input  type="email" required [(ngModel)]="email" name="email"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Phone number</ion-label>
+                    <ion-input type="text" [(ngModel)]="mobile_phone" name="mobile_phone"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Office phone number</ion-label>
+                    <ion-input type="text" [(ngModel)]="office_phone" name="office_phone"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Address</ion-label>
+                    <ion-input type="text" [(ngModel)]="address1" name="address1"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>City</ion-label>
+                    <ion-input type="text" [(ngModel)]="city" name="city"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>State</ion-label>
+                    <ion-input type="text" [(ngModel)]="state" name="state"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+              <div class="ha__form-field">
+                <div class="field-icon">
+                    <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>           
+                </div>
+                <div class="field-input">
+                  <ion-item>
+                    <ion-label floating>Zip</ion-label>
+                    <ion-input type="text" [(ngModel)]="zip" name="zip"></ion-input>
+                  </ion-item>
+                </div>
+              </div>
+            </div>
+          </ion-list>
+
+          <ion-row>
+            <ion-col col-6  *ngFor="let item of photos">
+              <ion-card>
+                <img [src]="item" *ngIf="photos"/>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+      </ion-col>
+    </ion-row>
+    </form>
+    <ion-row>
+      <ion-col col-6 *ngFor="let item of photoData">
+        <ion-card>
+          <div id="img{{item.id}}">
+            <img src="{{item.image}}" *ngIf="photoData"/>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-col col-12>
+      <button ion-button class="button default-btn full-width-btn danger-btn" (click)="deleteData()">Delete Contact</button>
+    </ion-col>
+  </ion-grid>
+</ion-content>
+  

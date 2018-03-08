@@ -1,0 +1,74 @@
+.button{
+    padding:0 20px;
+    text-transform: uppercase;
+    border-radius:3px;
+
+    &.default-btn{
+        height:50px;
+        color:#fff;
+        font-size:14px;
+    }
+
+    &.full-width-btn{
+        text-align:center;
+        width:100%;
+    }
+    
+    &.inactive{
+        opacity:.5;
+    }
+
+    &.primary-color-btn{
+        background-color: $primary-color!important;
+        box-shadow: 2px 2px 10px rgba($primary-color, .25);
+    }
+    
+    &.secondary-color-btn{
+        background-color: $secondary-color!important;
+        box-shadow: 2px 2px 10px rgba($secondary-color, .25);
+    }
+    
+    &.third-color-btn{
+        background-color: $third-color!important;
+        box-shadow: 2px 2px 10px rgba($third-color, .25);
+    }
+
+    &.success-btn{
+        background-color: $success-color!important;
+        box-shadow: 2px 2px 10px rgba($fourth-color, .25);
+    } 
+    
+    &.danger-btn{
+        background-color: $red!important;
+        box-shadow: 2px 2px 10px rgba($third-color, .25);
+    }
+    
+    &.yellow-btn{
+        background-color: $yellow!important;
+        box-shadow: 2px 2px 10px rgba($third-color, .25);
+    }  
+    
+    &[disabled]{
+        background-color: lightgray!important;
+        box-shadow: 0 0 0 transparent!important;
+    }
+    
+    &.small-btn{
+        color:#fff;
+        height:30px;
+        font-size: 13px;
+    }
+
+    &.transparent-btn{
+        background-color: transparent;
+        color:$primary-color;
+    }
+}
+
+ion-fab{
+    button{
+        background-color: $primary-color!important;
+        box-shadow: 0 4px 6px 0 rgba($primary-color, .25), 
+                    0 4px 5px rgba($primary-color, .25)!important;
+    }   
+}

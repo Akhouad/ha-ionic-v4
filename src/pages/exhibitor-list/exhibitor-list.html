@@ -1,0 +1,51 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-buttons  start left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" id="myMenu" item-left></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{event_name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="main-content">
+  
+  <component-loader *ngIf="showLoader"></component-loader>
+  
+  <ion-list>
+    <ion-item *ngIf="empty">
+      No Items Found
+    </ion-item>
+    <ion-item-group *ngFor="let item of exhibitors">
+      <ion-item-divider color="quartz">{{ item?.name }}</ion-item-divider>
+      <ion-item *ngIf="item?.logo">
+        <img [src]="item?.logo"/>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <button (click)="goToMain()" style="background: transparent;
+    color: white;
+    margin-left: 28px;">
+      <ion-icon name="{{rootIcon}}" style="font-size: 25px; margin-bottom: 0; margin-top: 10px"></ion-icon>
+      <p style="margin-top: 0; margin-bottom: 15px">{{rootTitle}}</p>
+    </button>
+    <button (click)="goToSearch()" style="float: right;background: transparent;
+    color: white;
+    margin-right: 28px;">
+      <ion-icon name="search" style="font-size: 25px; margin-bottom: 0; margin-top: 10px"></ion-icon>
+      <p style="margin-top: 0; margin-bottom: 15px">Search</p>
+    </button>
+  </ion-toolbar>
+</ion-footer>
+<ion-fab bottom center (click)="openMenu()">
+  <button ion-fab large>
+    <ion-icon name="add" class="fab-scan-icon"></ion-icon>
+  </button>
+</ion-fab>
+  

@@ -1,0 +1,30 @@
+@import "styles/variables";
+@import "styles/buttons";
+@import "styles/header";
+@import "styles/layouts";
+@import "styles/menu";
+@import "styles/forms";
+@import "styles/typography";
+@import "styles/lists";
+@import "styles/eventsList";
+@import "styles/tabs";
+@import "styles/loader";
+
+.tokenLoading{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    text-align:center;
+
+    p{
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+        text-align:center;
+        font-size: 24px;
+        color: rgba(black, .5);
+        width:100%;
+    }
+}

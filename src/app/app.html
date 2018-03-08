@@ -1,0 +1,188 @@
+<ion-menu [content]="content" persistent="true" class="main-menu">
+    <ion-content id="menuContent_Cont">
+        <ion-list color="primary" style="margin-bottom:5px !important;" no-lines>
+        <ion-list-header color="quartz" style="margin:unset !important;">
+            My List 
+        </ion-list-header>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToIcon()">
+            <ion-icon name="home" item-start></ion-icon>
+            <h6>Home</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToHome()">
+            <ion-icon name="calendar" item-start></ion-icon>
+            <h6>All Events</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToContact()" *ngIf="company_id && userType != 'staff'">
+            <ion-icon name="contacts" item-start></ion-icon>
+            <h6>My Contacts</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToMyProfile()">
+            <ion-icon name="person" item-start></ion-icon>
+            <h6>My Profile</h6>
+        </ion-item>
+        <span *ngIf="event_id || userType != 'staff' && company_id">
+        <ion-list-header color="quartz" style="margin:unset !important;">
+            Event Overview
+        </ion-list-header>
+        <ion-item tappable color="primary" padding-left menuClose *ngIf="sessionsCheck && hasSessions" (click)="goToAgenda()">
+            <ion-icon name="bulb" item-start></ion-icon>
+            <h6>Agenda</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="onLead()" *ngIf="leaderCheck && hasSessions && userType != 'staff'">
+            <ion-icon name="thumbs-up" item-start></ion-icon>
+            <h6>Leaderboard</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose *ngIf="speakersCheck && hasSessions && userType != 'staff'" (click)="goToSpeaker()">
+            <ion-icon name="happy" item-start></ion-icon>
+            <h6>Speakers</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose *ngIf="exhibitorsCheck && hasSessions" (click)="goToExhibitors()">
+            <ion-icon name="body" item-start></ion-icon>
+            <h6>Exhibitors</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose  (click)="goToSponsors()" *ngIf="sponsorsCheck && hasSessions">
+            <ion-icon name="contacts" item-start></ion-icon>
+            <h6>Sponsors</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToContent()" *ngIf="contentsCheck">
+            <ion-icon name="book" item-start></ion-icon>
+            <h6>Content</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToSurveys()" *ngIf="surveysCheck && userType != 'staff'">
+            <ion-icon name="stats" item-start></ion-icon>
+            <h6>Surveys</h6>
+        </ion-item>
+        <ion-item tappable color="primary"
+                    padding-left menuClose
+                    (click)="goToGames()"
+                    *ngIf="gamesCheck && applications.type_4 && userType != 'staff'">
+            <ion-icon name="game-controller-a" item-start></ion-icon>
+            <h6>Games</h6>
+        </ion-item>
+        <ion-item tappable color="primary"
+                    padding-left menuClose
+                    (click)="goToLinks()"
+                    *ngIf="externalCheck && applications.type_6">
+            <ion-icon name="globe" item-start></ion-icon>
+            <h6>Links</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose *ngIf="mapsCheck" (click)="goToMap()">
+            <ion-icon name="map" item-start></ion-icon>
+            <h6>Maps</h6>
+        </ion-item>
+        </span>
+        <span *ngIf="userType == 'organizer' || userType == 'exhibitor'">
+            <ion-list-header color="quartz" style="margin:unset !important;" >
+            Exhibitors
+        </ion-list-header>
+        <ion-item tappable color="primary" padding-left menuClose (click)="onScanMul()">
+            <ion-icon name="barcode" item-start></ion-icon>
+            <h6>Quick Scan Leads</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="onScan()">
+            <ion-icon name="barcode" item-start></ion-icon>
+            <h6>Scan Lead</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="onCamera()">
+            <ion-icon name="contacts" item-start></ion-icon>
+            <h6>Scan Business Card</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToType()">
+            <ion-icon name="person-add" item-start></ion-icon>
+            <h6>Type Lead</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToContact()">
+            <ion-icon name="contacts" item-start></ion-icon>
+            <h6>List Leads</h6>
+        </ion-item>
+        </span>
+
+        <span *ngIf="(userType == 'organizer' || userType == 'staff') && !event_type">
+
+            <ion-list-header color="quartz" style="margin:unset !important;">
+            Organizers
+            </ion-list-header>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToAttendees()" *ngIf="event_id">
+            <ion-icon name="people" item-start></ion-icon>
+            <h6>Attendees</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="eventOverview()" *ngIf="event_id && userType != 'staff'">
+            <ion-icon name="pie" item-start></ion-icon>
+            <h6>Event Overview</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToProve()" *ngIf="event_id && userType != 'staff'">
+            <ion-icon name="medal" item-start></ion-icon>
+            <h6>Proof of Performance</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToExpense()" *ngIf="event_id && userType != 'staff'">
+            <ion-icon name="calculator" item-start></ion-icon>
+            <h6>Record Expense</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToExpense()" *ngIf="event_id && userType != 'staff'">
+            <ion-icon name="share-alt" item-start></ion-icon>
+            <h6>Post to Activity Feed </h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="getCheck()" *ngIf="event_id && userType != 'staff'">
+            <ion-icon name="navigate" item-start></ion-icon>
+            <h6>Check In Attendee</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="checkOut()" *ngIf="event_id">
+            <ion-icon name="log-out" item-start></ion-icon>
+        <h6>Check Out Attendee</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToInvite()" *ngIf="userType != 'staff'">
+            <ion-icon name="person-add" item-start></ion-icon>
+            <h6>Invite User </h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToWatchList()" *ngIf="userType != 'staff'">
+            <ion-icon name="pulse" item-start></ion-icon>
+            <h6>Watch List</h6>
+        </ion-item>
+        </span>
+        <ion-list-header color="quartz" style="margin:unset !important;">
+            Application Info
+        </ion-list-header>
+        <ion-item tappable color="primary" padding-left menuClose (click)="openIntercomChat()">
+            <ion-icon name="chatbubbles" item-start></ion-icon>
+            <h6>Help and Support</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToCompanyList()">
+            <ion-icon name="ribbon" item-start></ion-icon>
+            <h6>Company List</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToMyEvent()" *ngIf="event_id">
+            <ion-icon name="calendar" item-start></ion-icon>
+            <h6>My Events</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToBrowser('about')">
+            <ion-icon name="information-circle" item-start></ion-icon>
+            <h6>About</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToBrowser('legal')">
+            <ion-icon name="information-circle" item-start></ion-icon>
+            <h6>Legal</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="goToBrowser('privacy')">
+            <ion-icon name="information-circle" item-start></ion-icon>
+            <h6>Privacy</h6>
+        </ion-item>
+        <ion-item tappable color="primary" padding-left menuClose (click)="logoutApp()">
+            <ion-icon name="log-out" item-start></ion-icon>
+            <h6>Log Out</h6>
+        </ion-item>
+        <ion-item color="primary">
+            <p>App Version: {{ app_version }}</p>
+        </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content id="hamburger-menu"></ion-nav>
+
+<div class="tokenLoading" *ngIf="pageLoader">
+    <p>
+        <ion-spinner></ion-spinner>
+        Getting a token...
+    </p>
+</div>
+      

@@ -1,0 +1,110 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-buttons  start left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" id="myMenu" item-left></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Leaderboard</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="main-content">
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="icons" color="primary">
+      <ion-segment-button value="lead">
+        Top
+      </ion-segment-button>
+      <ion-segment-button value="myPoints">
+        My Points
+      </ion-segment-button>
+      <ion-segment-button value="rules">
+        Rules
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  
+  <component-loader *ngIf="showLoader"></component-loader>
+  
+  <div [ngSwitch]="icons">
+    <ion-list *ngSwitchCase="'lead'" class="one-line-list">
+      <ion-item *ngIf="empty">No Items Found</ion-item>
+      <ion-item *ngFor="let item of top" class="one-line-list__item">
+        <ion-grid>
+          <ion-row (click)="goToExactLead(item?.email)">
+            <ion-col class="leaderboard-item">
+              {{item?.first_name}} {{item?.last_name}}
+              <p class="dark-gray-text no-margin-top">{{item?.company}}</p>
+            </ion-col>
+            <ion-col class="leaderboard-item">
+              {{item?.score}} Points
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'myPoints'" class="one-line-list">
+      <ion-item><h2 class="align-center">My Rank : {{myScore}} Points</h2></ion-item>
+      <ion-item class="one-line-list__item" *ngFor="let item of list">
+        <ion-grid>
+          <ion-row>
+            <ion-col col class="leaderboard-item">
+              {{item?.event.name}}
+              <p class="dark-gray-text no-margin-top">{{item?.type}}</p>
+            </ion-col>
+            <ion-col col class="leaderboard-item">
+              {{item?.score}} Points
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'rules'">
+      <ion-card>
+        <ion-list ion-item>
+          Check In to Session
+          <ion-icon item-end>100</ion-icon>
+        </ion-list>
+
+        <ion-list ion-item>
+          Rate Speaker
+          <ion-icon item-end>50</ion-icon>
+        </ion-list>
+
+        <ion-list ion-item>
+          Rate Session
+          <ion-icon item-end>50</ion-icon>
+        </ion-list>
+
+        <ion-list ion-item>
+          Survey Responses
+          <ion-icon item-end>20</ion-icon>
+        </ion-list>
+
+      </ion-card>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <button (click)="goToMain()" style="background: transparent;
+    color: white;
+    margin-left: 28px;">
+      <ion-icon name="{{rootIcon}}" style="font-size: 25px; margin-bottom: 0; margin-top: 10px"></ion-icon>
+      <p style="margin-top: 0; margin-bottom: 15px">{{rootTitle}}</p>
+    </button>
+    <button (click)="goToSearch()" style="float: right;background: transparent;
+    color: white;
+    margin-right: 28px;">
+      <ion-icon name="search" style="font-size: 25px; margin-bottom: 0; margin-top: 10px"></ion-icon>
+      <p style="margin-top: 0; margin-bottom: 15px">Search</p>
+    </button>
+  </ion-toolbar>
+</ion-footer>
+<ion-fab bottom center (click)="openMenu()">
+  <button ion-fab large>
+    <ion-icon name="add" class="fab-scan-icon"></ion-icon>
+  </button>
+</ion-fab>
+  

@@ -1,0 +1,82 @@
+<ion-header class="main-header">
+  <ion-navbar color="primary">
+    <ion-buttons start left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" id="myMenu" item-left></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{event?.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="main-content">
+  <ion-refresher (ionRefresh)="doRefresh($event)" color="sunbeam">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <component-loader *ngIf="showLoader"></component-loader>
+  
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="icons" color="primary">
+      <ion-segment-button value="session">
+        <span *ngFor="let item of index">
+          <span *ngIf="item == '0'">{{time[item] | date:'MMM d, y'}}</span>
+        </span>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <div [ngSwitch]="icons">
+    <ion-list *ngSwitchCase="'session'">
+
+      <ion-item-group *ngIf="empty">
+        <ion-item-divider sticky>
+          <ion-label class="timeLabel">
+            No Items Found
+          </ion-label>
+        </ion-item-divider>
+      </ion-item-group>
+      <ion-item-group *ngFor="let item of index">
+        <ion-item-divider sticky>
+          <ion-label class="timeLabel">
+            {{time[item] | date:'h:mm a z'}}
+          </ion-label>
+        </ion-item-divider>
+        <ion-item class="agendaCard" *ngFor="let item of session[item]" (click)="goToSession(item?.id, item?.check)">
+          <button ion-item [style.borderLeftColor]="item?.track.color">
+            <p class="agendaName">{{ item?.name }}</p>
+            <p *ngIf="userType != 'attendee'">Checked In: {{item?.check}}</p>
+            <p>{{item?.track.name}}</p>
+            <p *ngFor="let val of item?.room">
+              {{val?.name}}
+            </p>
+            <p class="timeLabel">{{item?.start_timestamp | date:'h:mm a z'}} - {{item?.end_timestamp | date:'h:mm a z'}}</p>
+          </button>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <button (click)="goToMain()" style="background: transparent;
+    color: white;
+    margin-left: 28px;">
+      <ion-icon name="{{rootIcon}}" style="font-size: 25px; margin-bottom: 0; margin-top: 10px"></ion-icon>
+      <p style="margin-top: 0; margin-bottom: 15px">{{rootTitle}}</p>
+    </button>
+    <button (click)="goToSearch()" style="float: right;background: transparent;
+    color: white;
+    margin-right: 28px;">
+      <ion-icon name="search" style="font-size: 25px; margin-bottom: 0; margin-top: 10px"></ion-icon>
+      <p style="margin-top: 0; margin-bottom: 15px">Search</p>
+    </button>
+  </ion-toolbar>
+</ion-footer>
+<ion-fab bottom center (click)="openMenu()">
+  <button ion-fab large>
+    <ion-icon name="add" class="fab-scan-icon"></ion-icon>
+  </button>
+</ion-fab>

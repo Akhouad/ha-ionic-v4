@@ -1,0 +1,273 @@
+<ion-header class="main-header">
+  <ion-navbar>
+    <ion-buttons start left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" id="myMenu" item-left></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Events
+      <button [disabled]="loading" (click)="goToLogin()" *ngIf="!globalService.authenticated" style="float:right;" class="button small-btn success-btn">
+        <ion-spinner *ngIf="loading"></ion-spinner>   
+        <span *ngIf="!loading">Login</span>
+      </button>
+    </ion-title>
+    
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="main-content">
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="icons" color="primary">
+      <ion-segment-button value="current">
+        CURRENT
+      </ion-segment-button>
+      <ion-segment-button value="past">
+        PAST
+      </ion-segment-button>
+      <ion-segment-button value="nearby">
+        ALL
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <component-loader *ngIf="showLoader"></component-loader>
+
+  <div [ngSwitch]="icons">
+    <ion-list class="events-list" *ngSwitchCase="'current'">
+      <ion-item *ngIf="empty">No Items Found</ion-item>
+      <ion-grid>
+        <ion-col col-12 *ngFor="let item of currentEvents">
+          <ion-card class="events-card">
+            <div class="event-image">
+                <img src="{{item?.event_image}}">
+            </div>
+            <ion-card-content>
+              <ion-card-title>
+                {{item?.name}}
+              </ion-card-title>
+              <p class="event-date">
+                {{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+                  date:'MMM-dd-yy'}}
+              </p>
+              <h5 class="event-location" *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+              <button class="event-button" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">
+                View
+              </button>
+              <button class="event-icon" ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">  
+                <!-- <ion-icon ios="ios-globe" md="md-globe"></ion-icon> -->
+                Website
+              </button> 
+              <button class="event-icon" *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">  
+                <!-- <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon> -->
+                Register
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-12 *ngFor="let item of futureEvents">
+          <ion-card class="events-card">
+            <div class="event-image">
+                <img src="{{item?.event_image}}">
+            </div>
+            <ion-card-content>
+              <ion-card-title>
+                {{item?.name}}
+              </ion-card-title>
+              <p class="event-date">
+                {{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+                  date:'MMM-dd-yy'}}
+              </p>
+              <h5 class="event-location" *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+              <button class="event-button" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">
+                View
+              </button>
+              <button class="event-icon" ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">  
+                <!-- <ion-icon ios="ios-globe" md="md-globe"></ion-icon> -->
+                Website
+              </button> 
+              <button class="event-icon" *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">  
+                <!-- <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon> -->
+                Register
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-grid>
+    </ion-list>
+    <ion-list class="events-list" *ngSwitchCase="'past'">
+      <ion-grid>
+        <ion-col col-12 *ngFor="let item of pastEvents">
+          <ion-card class="events-card">
+            <div class="event-image">
+                <img src="{{item?.event_image}}">
+            </div>
+            <ion-card-content>
+              <ion-card-title>
+                {{item?.name}}
+              </ion-card-title>
+              <p class="event-date">
+                {{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+                  date:'MMM-dd-yy'}}
+              </p>
+              <h5 class="event-location" *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+              <button class="event-button" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">
+                View
+              </button>
+              <button class="event-icon" ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">  
+                <!-- <ion-icon ios="ios-globe" md="md-globe"></ion-icon> -->
+                Website
+              </button> 
+              <button class="event-icon" *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">  
+                <!-- <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon> -->
+                Register
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-grid>
+    </ion-list>
+    <ion-list class="events-list" *ngSwitchCase="'nearby'">
+      <ion-grid>
+        <ion-col col-12 *ngFor="let item of futureEvents">
+          <ion-card class="events-card">
+            <div class="event-image">
+                <img src="{{item?.event_image}}">
+            </div>
+            <ion-card-content>
+              <ion-card-title>
+                {{item?.name}}
+              </ion-card-title>
+              <p class="event-date">
+                {{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+                  date:'MMM-dd-yy'}}
+              </p>
+              <h5 class="event-location" *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+              <button class="event-button" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">
+                View
+              </button>
+              <button class="event-icon" ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">  
+                <!-- <ion-icon ios="ios-globe" md="md-globe"></ion-icon> -->
+                Website
+              </button> 
+              <button class="event-icon" *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">  
+                <!-- <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon> -->
+                Register
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-12 *ngFor="let item of currentEvents">
+          <ion-card class="events-card">
+            <div class="event-image">
+                <img src="{{item?.event_image}}">
+            </div>
+            <ion-card-content>
+              <ion-card-title>
+                {{item?.name}}
+              </ion-card-title>
+              <p class="event-date">
+                {{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+                  date:'MMM-dd-yy'}}
+              </p>
+              <h5 class="event-location" *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+              <button class="event-button" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">
+                View
+              </button>
+              <button class="event-icon" ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">  
+                <!-- <ion-icon ios="ios-globe" md="md-globe"></ion-icon> -->
+                Website
+              </button> 
+              <button class="event-icon" *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">  
+                <!-- <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon> -->
+                Register
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-12 *ngFor="let item of pastEvents">
+          <ion-card class="events-card">
+            <div class="event-image">
+                <img src="{{item?.event_image}}">
+            </div>
+            <ion-card-content>
+              <ion-card-title>
+                {{item?.name}}
+              </ion-card-title>
+              <p class="event-date">
+                {{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+                  date:'MMM-dd-yy'}}
+              </p>
+              <h5 class="event-location" *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+              <button class="event-button" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">
+                View
+              </button>
+              <button class="event-icon" ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">  
+                <!-- <ion-icon ios="ios-globe" md="md-globe"></ion-icon> -->
+                Website
+              </button> 
+              <button class="event-icon" *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">  
+                <!-- <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon> -->
+                Register
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-grid>
+    </ion-list>
+    <!-- <ion-list class="events-list">
+      <ion-item *ngIf="emptyPast">No Items Found</ion-item>
+      <ion-item *ngFor="let item of pastEvents">
+        <ion-thumbnail item-start>
+          <img src="{{item?.event_image}}">
+        </ion-thumbnail>
+        <h4 style="margin-top: 5px">{{item?.name}}</h4>
+        <p>{{item?.start_date_timestamp * 1000 | date:'MMM dd, y'}}</p>
+        <h5 *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+        <button style="font-size: 15px" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">View</button>
+        <button ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">Website</button> <button *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">Register</button>
+      </ion-item>
+    </ion-list> -->
+    <!-- <ion-list *ngSwitchCase="'nearby'" class="events-list">
+      <ion-item *ngIf="emptyAll">No Items Found</ion-item>
+
+
+      <ion-item *ngFor="let item of futureEvents">
+        <ion-thumbnail item-start>
+          <img src="{{item?.event_image}}">
+        </ion-thumbnail>
+        <h4 style="margin-top: 5px">{{item?.name}}</h4>
+        <p>{{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+          date:'MMM-dd-yy'}}</p>
+        <h5 *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+        <button style="font-size: 15px" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">View</button>
+        <button ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">Website</button> <button *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">Register</button>
+      </ion-item>
+      <ion-item *ngFor="let item of currentEvents">
+        <ion-thumbnail item-start>
+          <img src="{{item?.event_image}}">
+        </ion-thumbnail>
+        <h4 style="margin-top: 5px">{{item?.name}}</h4>
+        <p>{{item?.start_date_timestamp * 1000 | date:'MMM-dd-yy'}} - {{item?.end_date_timestamp * 1000 |
+          date:'MMM-dd-yy'}}</p>
+        <h5 *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+        <button style="font-size: 15px" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">View</button>
+        <button ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">Website</button> <button *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">Register</button>
+      </ion-item>
+
+      <ion-item *ngFor="let item of pastEvents">
+        <ion-thumbnail item-start>
+          <img src="{{item?.event_image}}">
+        </ion-thumbnail>
+        <h4 style="margin-top: 5px">{{item?.name}}</h4>
+        <p>{{item?.start_date_timestamp * 1000 | date:'MMM dd, y'}}</p>
+        <h5 *ngIf="item.city">{{item?.city}}, {{item?.state}}</h5>
+        <button style="font-size: 15px" ion-button clear item-end (click)="goExactEvent(item?.id, item?.exhibit, item?.application, item?.sessions.length, item?.root)">View</button>
+        <button ion-button clear *ngIf="item?.event_website" (click)="openWebBrowser(item?.event_website)">Website</button> <button *ngIf="item?.registered_url" ion-button clear (click)="openWebBrowser(item?.registered_url)">Register</button>
+      </ion-item>
+    </ion-list> -->
+  </div>
+</ion-content>
+<div class="loader" *ngIf="pageLoader">
+  <ion-spinner></ion-spinner>   
+</div>

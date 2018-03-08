@@ -1,0 +1,9 @@
+ion-toolbar{
+    ion-segment-button{
+        color: $primary-color!important;
+
+         &.segment-activated{
+             border-color: $primary-color!important;
+         }
+    }
+}

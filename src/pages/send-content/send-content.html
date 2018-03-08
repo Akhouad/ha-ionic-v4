@@ -1,0 +1,89 @@
+<ion-header class="main-header">
+  <ion-toolbar color="primary">
+    <ion-buttons start left>
+      <button ion-button (click)="closeSendModal()">
+        <ion-icon ios="ios-return-left" md="md-return-left"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Send Content</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content" padding>
+  <button ion-button class="button default-btn success-btn full-width-btn" type="submit" [disabled]="!subButton" (click)="sendData(dataForm.value)">
+    <ion-spinner color="light" name="bubbles" *ngIf="loading"></ion-spinner>
+    Send content
+  </button>
+  <ion-searchbar class="no-padding-left no-padding-right" [(ngModel)]="searchTerm" (ionInput)="searchEmail($event)"></ion-searchbar>
+  
+  <ion-list>
+    <ion-item *ngFor="let item of contacts">
+      <p (click)="getMail(item.email_consent)" *ngIf="contacts">{{item.email_consent}}</p>
+    </ion-item>
+  </ion-list>
+  <form #dataForm='ngForm' class="ha__form no-margin-top" (ngSubmit)="sendData(dataForm.value)">
+    
+    <div class="ha__form-field">
+      <div class="field-icon">
+        <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>
+      </div>
+      <div class="field-input">
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <ion-input type="email" required (ngModelChange)="ifValid($event)"
+                  [(ngModel)]="email_consent" name="email_consent"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+    <div class="ha__form-field">
+      <div class="field-icon">
+        <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>
+      </div>
+      <div class="field-input">
+        <ion-item>
+          <ion-label floating>First Name</ion-label>
+          <ion-input type="text" [(ngModel)]="first_name" name="first_name"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+    <div class="ha__form-field">
+      <div class="field-icon">
+        <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>
+      </div>
+      <div class="field-input">
+        <ion-item>
+          <ion-label floating>Last Name</ion-label>
+          <ion-input type="text" [(ngModel)]="last_name" name="last_name"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+    <div class="ha__form-field">
+      <div class="field-icon">
+        <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>
+      </div>
+      <div class="field-input">
+        <ion-item>
+          <ion-label floating>Title</ion-label>
+          <ion-input type="text" [(ngModel)]="title" name="title"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+    <div class="ha__form-field">
+      <div class="field-icon">
+        <ion-icon ios="ios-return-right" md="md-return-right"></ion-icon>
+      </div>
+      <div class="field-input">
+        <ion-item>
+          <ion-label floating>Company</ion-label>
+          <ion-input type="text" [(ngModel)]="company" name="company"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+  </form>
+  
+  <button ion-button class="button default-btn full-width-btn primary-color-btn" (click)="onScan()">
+    <ion-icon name="qr-scanner" style="display:inline-block;margin-right: 10px;"></ion-icon>
+    Scan QR code
+  </button>
+</ion-content>
+  
