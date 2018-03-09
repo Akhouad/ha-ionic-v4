@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MenuController, ModalController, NavController, NavParams, LoadingController} from 'ionic-angular';
+import {MenuController, ModalController, NavParams, NavController} from 'ionic-angular';
 import {ExactContentsPage} from "../exact-contents/exact-contents";
 import {CrudProvider} from "../../providers/crud/crud";
 import {SendContentPage} from "../send-content/send-content";
@@ -11,7 +11,7 @@ import {FileOpener} from '@ionic-native/file-opener';
 import {HTTP} from '@ionic-native/http';
 import {FilterPage} from "../filter/filter";
 import {ContentListPage} from "../content-list/content-list";
-import { SERVER_URL } from "../../config";
+// import { SERVER_URL } from "../../config";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 
 @Component({
@@ -54,8 +54,9 @@ export class ApplicationPage {
   showLoader: boolean = true;
   loading: any;
   showType: any = 'grid';
-  
-  fileTransfer: FileTransferObject
+  pageLoader: boolean = false;
+
+  fileTransfer: FileTransferObject  
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -66,13 +67,10 @@ export class ApplicationPage {
               private file: File,
               private fileOpener: FileOpener,
               private http: HTTP,
-              private loadingCtrl: LoadingController,
-              private transfer: FileTransfer,
+              private transfer: FileTransfer, 
               protected menuCtrl: MenuController) {
     this.fileTransfer =  this.transfer.create();
-    // this.loading = null;
-    // this.globalService.loadingCtrl = null
-    
+                
     this.checkPage = false;
     this.contentName = this.navParams.get('content_name');
     this.applicationId = this.navParams.get('application_id');
@@ -366,23 +364,24 @@ export class ApplicationPage {
    * @param content_id
    */
   protected goToExactContent(content_id) {
-    // this.loading = this.loadingCtrl.create({
-    //   content: 'Opening file...'
-    // });
-    // this.loading.present()
     this.globalService.getLoad(true);
+    this.pageLoader = true
     this.crudProvider.getIndex('contents/' + content_id + "?", GlobalVars.profile.token)
       .subscribe(data => {
         let name = this.globalService.normalizeFilename(data.content.name, 'pdf');
         switch (data.content.file_type) {
           case 'video':
             this.globalService.getLoad(false);
+            // this.pageLoader = false
           case 'website':
             this.globalService.getLoad(false);
+            // this.pageLoader = false
           case 'vimeo':
             this.globalService.getLoad(false);
+            // this.pageLoader = false
           case 'youtube':
             this.globalService.getLoad(false);
+            // this.pageLoader = false
             this.openUrl(data.content.file_path[0]);
             break;
           case 'pdf':
@@ -391,6 +390,7 @@ export class ApplicationPage {
             break;
           default:
             this.globalService.getLoad(false);
+            // this.pageLoader = false
             this.navCtrl.push(ExactContentsPage, {
               data: data.content.file_path
             });
@@ -405,14 +405,30 @@ export class ApplicationPage {
    */  
   public downloadPdf(data, name) {
     this.globalService.getLoad(true);
-    this.fileTransfer.download(data, this.file.dataDirectory + name).then((entry) => {
-      console.log('download complete: ' + entry.toURL());
+            // this.pageLoader = true
+    this.http.downloadFile(data, {}, {}, this.file.dataDirectory + name)
+    .then((data) => {
       this.showDownload(this.file.dataDirectory + name);
       this.globalService.getLoad(false);
-    }, (error) => {
-      console.log("download error")
+            // this.pageLoader = false
+    })
+    .catch(error => {
       this.globalService.getLoad(false);
+            // this.pageLoader = false
     });
+
+    // this.fileTransfer.download(data, this.file.dataDirectory + name).then((entry) => {
+    //   console.log('download complete: ' + entry.toURL());
+    //   this.showDownload(this.file.dataDirectory + name);
+    //   // this.globalService.getLoad(false);
+    //         this.pageLoader = false
+    // }, (error) => {
+    //   console.log("download error")
+    //   // this.globalService.getLoad(false);
+    //         this.pageLoader = false
+    // });
+
+
     // this.globalService.getLoad(true);
     // this.http.downloadFile(data, {}, {}, this.file.dataDirectory + name)
     //   .then((data) => {
@@ -433,6 +449,7 @@ export class ApplicationPage {
   public showDownload(data) {
     this.fileOpener.open(data, 'application/pdf')
       .then(() => {
+        console.log("opened")
       })
       .catch(e => alert(JSON.stringify(e)));
   }

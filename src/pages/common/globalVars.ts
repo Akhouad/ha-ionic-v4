@@ -2,8 +2,7 @@ export class GlobalVars {
     static profile: {
       token: string,
       userType: string,
-      email: string,
-      guest: boolean
+      email: string
     };
     static company_id: number;
     static event_id: number;

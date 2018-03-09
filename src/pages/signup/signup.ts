@@ -71,8 +71,7 @@ export class SignupPage {
               GlobalVars.profile ={
                 token:data['token'],
                 email:this.data.email,
-                userType:data['usertype'],
-                guest: false
+                userType:data['usertype']
               };
               this.storage.set("profile", JSON.stringify(GlobalVars.profile)).then(()=>{
                 this.navCtrl.setRoot(HomePage);

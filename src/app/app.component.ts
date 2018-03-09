@@ -124,52 +124,52 @@ export class MyApp {
       this.config.set( 'scrollAssist', false )
       this.config.set( 'autoFocusAssist', false )
 
-      this.menu.enable(false)
-      this.pageLoader = true
+      // this.menu.enable(false)
+      // this.pageLoader = true
       
-      // if (platform.is('android')) {
-      //   platform.registerBackButtonAction(() => {
-      //     if (!GlobalVars.LoginPage) {
-      //       if (this.nav.canGoBack()) {
-      //         this.globalService.getLoad(false);
-      //         switch (GlobalVars.rootPage){
-      //           case 'agenda':
-      //             this.nav.setRoot(AgendaPage);
-      //             break;
-      //           case 'leader_board':
-      //             this.nav.setRoot(LeaderBoardPage);
-      //             break;
-      //           case 'speakers':
-      //             this.nav.setRoot(SpeakersListPage);
-      //             break;
-      //           case 'exhibitors':
-      //             this.nav.setRoot(ExhibitorListPage);
-      //             break;
-      //           case 'sponsors':
-      //             this.nav.setRoot(SponsorsPage);
-      //             break;
-      //           case 'content':
-      //             this.nav.setRoot(ContentListPage);
-      //             break;
-      //           case 'surveys':
-      //             this.nav.setRoot(SurvaysPage);
-      //             break;
-      //           case 'maps':
-      //             this.nav.setRoot(MapListPage);
-      //             break;
-      //           case 'games':
-      //             this.nav.setRoot(GamesPage);
-      //             break;
-      //           default :
-      //             this.nav.setRoot(CompaniesPage);
-      //             break;
-      //         }
-      //       } else {
-      //         this.nav.pop();
-      //       }
-      //     }
-      //   });
-      // }
+      if (platform.is('android')) {
+        platform.registerBackButtonAction(() => {
+          if (!GlobalVars.LoginPage) {
+            if (this.nav.canGoBack()) {
+              this.globalService.getLoad(false);
+              switch (GlobalVars.rootPage){
+                case 'agenda':
+                  this.nav.setRoot(AgendaPage);
+                  break;
+                case 'leader_board':
+                  this.nav.setRoot(LeaderBoardPage);
+                  break;
+                case 'speakers':
+                  this.nav.setRoot(SpeakersListPage);
+                  break;
+                case 'exhibitors':
+                  this.nav.setRoot(ExhibitorListPage);
+                  break;
+                case 'sponsors':
+                  this.nav.setRoot(SponsorsPage);
+                  break;
+                case 'content':
+                  this.nav.setRoot(ContentListPage);
+                  break;
+                case 'surveys':
+                  this.nav.setRoot(SurvaysPage);
+                  break;
+                case 'maps':
+                  this.nav.setRoot(MapListPage);
+                  break;
+                case 'games':
+                  this.nav.setRoot(GamesPage);
+                  break;
+                default :
+                  this.nav.setRoot(CompaniesPage);
+                  break;
+              }
+            } else {
+              this.nav.pop();
+            }
+          }
+        });
+      }
 
       if (this.platform.is('ios')) {
         this.keyboard.disableScroll(true);
@@ -182,86 +182,50 @@ export class MyApp {
       });
     });
 
-    this.profileStorage = {
-      guest: true
-    }
+    // this.profileStorage = {
+    //   guest: true
+    // }
 
-    this.storage.get('profile').then((data) => {
-      this.profileStorage = JSON.parse(data)
-      // console.log(JSON.parse(data))
-
-      GlobalVars.profile = {
-        email: '',
-        token: '',
-        userType: '',
-        guest: (data !== null) ? data.guest : true
-      };
-      // console.log(this.profileStorage)
-
-      if(this.profileStorage !== null && !this.profileStorage.guest){
-        console.log("here")
-        this.menu.enable(true)
-        this.globalService.authenticated = true
-          this.pageLoader = false
-        this.events.subscribe('sidemenu:updateItems', args => {
-          this.hasSessions = typeof args.hasSessions === 'undefined' ? true : args.hasSessions;
-          if (args.applications) {
-            this.applications = {
-              type_1: false,
-              type_4: false,
-              type_8: false,
-              type_6: false
-            };
-            for (let i = 0; i < args.applications.length; i++) {
-              this.applications['type_' + args.applications[i]] = true;
-            }
-          }
-        });
-        this.storage.get('profile').then((val) => {
-          this.pageLoader = false
-          if (val != '' && val != null) {
-            let profile = JSON.parse(val);
-            GlobalVars.profile.token = profile.token;
-            if (profile.token != null && profile.token !== '') {
-    
-              this.rootPage = CompaniesPage;
-              GlobalVars.profile.email = profile.email;
-              GlobalVars.profile.userType = profile.userType;
-            } else {
-              console.log("token null")
-              this.rootPage = LoginPage;
-            }
-          } else {
-            console.log("val null")
-            this.rootPage = LoginPage;
-          }
-        }).catch(() => {
-          console.log("get profile catch")
-          this.rootPage = LoginPage;
-        });
-      }else{
-        this.globalService.authenticated = false
-        this.authService.login(this.initEmail, this.initPass).subscribe(res => {
-          this.pageLoader = false
-          if (res['token']) {
-            GlobalVars.profile ={
-              token: res['token'],
-              userType: res['usertype'],
-              email: this.initEmail,
-              guest: true
-            };
-            GlobalVars.company_id = this.initCompany_id
-            this.storage.set('profile', JSON.stringify(GlobalVars.profile))
-              .then(() => this.nav.setRoot(HomePage))
-              .catch(err => console.error('SQLITE CAUGHT', err));
-          }
-        }, err => {})
-  
-        this.guest = GlobalVars.profile.guest
+    this.events.subscribe('sidemenu:updateItems', args => {
+      this.hasSessions = typeof args.hasSessions === 'undefined' ? true : args.hasSessions;
+      if (args.applications) {
+        this.applications = {
+          type_1: false,
+          type_4: false,
+          type_8: false,
+          type_6: false
+        };
+        for (let i = 0; i < args.applications.length; i++) {
+          this.applications['type_' + args.applications[i]] = true;
+        }
       }
-    })
+    });
 
+    GlobalVars.profile = {
+      email: '',
+      token: '',
+      userType: ''
+    };
     GlobalVars.event_type = false;
+    this.storage.get('profile').then((val) => {
+      console.log(val)
+      if (val != '' && val != null) {
+        let profile = JSON.parse(val);
+        GlobalVars.profile.token = profile.token;
+        if (profile.token != null && profile.token !== '') {
+
+          this.rootPage = CompaniesPage;
+          GlobalVars.profile.email = profile.email;
+          GlobalVars.profile.userType = profile.userType;
+        } else {
+          this.rootPage = LoginPage;
+        }
+      } else {
+        this.rootPage = LoginPage;
+      }
+    }).catch(() => {
+      this.rootPage = LoginPage;
+    });
     
     
     this.cameraOptions = {
@@ -293,10 +257,9 @@ export class MyApp {
    */
   protected logoutApp() {
     GlobalVars.profile = {
-      email: GlobalVars.profile.email,
-      token: GlobalVars.profile.token,
-      userType: '',
-      guest: true
+      email: '',
+      token: '',
+      userType: ''
     };
     
     // reset intercom
@@ -305,7 +268,7 @@ export class MyApp {
     this.menu.enable(false)
     // GlobalVars.event_id = null;
     // GlobalVars.company_id = null;
-    this.nav.push(LoginPage, { authenticated: false });
+    this.nav.push(LoginPage);
   }
 
   /**

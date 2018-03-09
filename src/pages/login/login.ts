@@ -57,10 +57,10 @@ export class LoginPage {
       this.keyboardShown = false;
     });
 
-    if(this.navParams.get("authenticated") == false){
-      // this.loggedOut = true
-      this.globalService.authenticated = this.navParams.get("authenticated") 
-    }
+    // if(this.navParams.get("authenticated") == false){
+    //   // this.loggedOut = true
+    //   this.globalService.authenticated = this.navParams.get("authenticated") 
+    // }
     
   }
   
@@ -120,19 +120,19 @@ export class LoginPage {
   submit($event: any = false) {
     this.loading = true;
     this.globalService.blindPreloader.emit(true);
+    console.log(this.data.email, this.data.password)
     this.authService.login(this.data.email, this.data.password).subscribe(res => {
       this.menu.enable(true)
       if (res['token']) {
         GlobalVars.profile ={
           token: res['token'],
           userType: res['usertype'],
-          email:this.data.email,
-          guest: false
+          email:this.data.email
         };
         // this.intercom.registerIdentifiedUser({ email: this.data.email });
         // this.intercom.setLauncherVisibility('GONE');
 
-        this.globalService.authenticated = true
+        // this.globalService.authenticated = true
 
         this.storage.set('profile', JSON.stringify(GlobalVars.profile)).then(
           ()=>{

@@ -127,11 +127,11 @@ export class HomePage {
    * @return void
    */
   public goExactEvent(id, type, applications, hasSessions, root) {
-    if(!this.globalService.authenticated){
-      this.pageLoader = true
-      this.navCtrl.push(LoginPage)
-      return
-    }
+    // if(!this.globalService.authenticated){
+    //   this.pageLoader = true
+    //   this.navCtrl.push(LoginPage)
+    //   return
+    // }
 
     GlobalVars.event_id = id;
     GlobalVars.checkItem = true;
